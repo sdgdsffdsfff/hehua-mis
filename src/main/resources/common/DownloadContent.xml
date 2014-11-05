@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description-content>
+    
+    <desc id="DOWNLOAD_ORDER_PAY_MONEY_LIST" name="orderParMoneyList" content="exportOrderParMoneyList">
+        <desc-rule value="orderId">
+            <attribute>订单号</attribute>
+			<attribute>Label</attribute>
+        </desc-rule>
+        <desc-rule value="paytime">
+            <attribute>支付时间</attribute>
+            <attribute>Label</attribute>
+        </desc-rule>
+        <desc-rule value="name">
+            <attribute>收货人姓名</attribute>
+			<attribute>Label</attribute>
+        </desc-rule>
+        <desc-rule value="province">
+            <attribute>省</attribute>
+            <attribute>Label</attribute>
+        </desc-rule>
+        <desc-rule value="city">
+            <attribute>市</attribute>
+            <attribute>Label</attribute>
+        </desc-rule>
+        <desc-rule value="county">
+            <attribute>区</attribute>
+            <attribute>Label</attribute>
+        </desc-rule>
+        <desc-rule value="detail">
+            <attribute>详细地址</attribute>
+            <attribute>Label</attribute>
+        </desc-rule>
+        <desc-rule value="postcode">
+            <attribute>邮编</attribute>
+            <attribute>Label</attribute>
+        </desc-rule>
+        <desc-rule value="phone">
+            <attribute>手机</attribute>
+            <attribute>Label</attribute>
+        </desc-rule>
+        <desc-rule value="title">
+            <attribute>商品名称</attribute>
+            <attribute>Label</attribute>
+        </desc-rule>
+        <desc-rule value="price">
+            <attribute>商品价格</attribute>
+            <attribute>Label</attribute>
+        </desc-rule>
+        <desc-rule value="quantity">
+            <attribute>商品数量</attribute>
+            <attribute>Label</attribute>
+        </desc-rule>
+        <desc-rule value="skuName">
+            <attribute>商品规格属性</attribute>
+            <attribute>Label</attribute>
+        </desc-rule>
+        <desc-rule value="invoiceComment">
+            <attribute>发票</attribute>
+            <attribute>Label</attribute>
+        </desc-rule>
+    </desc>
+    
+</description-content>

@@ -1,0 +1,73 @@
+.formDisplay
+{
+    margin-left:10%;
+    width:80%;
+}
+.formAllDisplay
+{
+    margin-left:2%;
+    margin-top:10px;
+
+}
+.buttonDisplay
+{
+    margin-left:48%;
+}
+.markDisplay
+{
+    margin-left:2%;
+    color: #ff0000;
+    font-size: 20px;
+    vertical-align: middle;
+}
+.alertTip
+{
+    margin-left:38%;
+    width:30%;
+    vertical-align: middle;
+}
+
+form.edit-info-form{
+    display: inline;
+}
+
+form.edit-info-form input{
+    border: 1px solid #84ACC6;
+    height: 20px;
+    line-height: 20px;
+    width: 290px;
+}
+
+form.edit-summbit input{
+    border: 1px solid #84ACC6;
+    height: 20px;
+    line-height: 20px;
+    width: 200px;
+}
+
+form.edit-info-form button{
+    border: none;
+    background:none;
+    margin-left: 5px;
+    padding: 0 3px;
+}
+
+form.edit-info-form button[type=submit]{
+    background: #015EAC;
+    color: white;
+    font-size: 14px;
+}
+
+form.edit-info-form button[type=cancel]{
+    /**	border-bottom: dotted 1px blue;
+        font-size: 12px;**/
+    background: #015EAC;
+    color: white;
+    font-size: 14px;
+}
+
+ .div-pad {
+     padding-bottom: 10px;
+     text-align:center;
+ }
+

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<context:annotation-config />
+
+	<!-- 完全自定义spring security -->
+	<global-method-security secured-annotations="enabled"></global-method-security>
+
+	<!-- Note that you can't replace filters which are created by the use of 
+		the <http> element itself - SecurityContextPersistenceFilter, ExceptionTranslationFilter 
+		or FilterSecurityInterceptor -->
+	<http auto-config="false" use-expressions="true"
+		entry-point-ref="authenticationEntryPoint"
+		security-context-repository-ref="securityContextRepository"
+		create-session="never" authentication-manager-ref="authenticationManager" access-decision-manager-ref="accessDecisionManager">
+		<!-- 自定义各种授权接口 -->
+		<custom-filter ref="usernamePasswordAuthenticationFilter"
+			position="FORM_LOGIN_FILTER" />
+		<custom-filter ref="logoutFilter" position="LOGOUT_FILTER" />
+
+		<request-cache ref="requestCache"/>
+
+        <intercept-url pattern="/favicon.ico" access="permitAll"/>
+        <intercept-url pattern="/crossdomain.xml" access="permitAll"/>
+        <intercept-url pattern="/apk/upload" access="permitAll"/>
+
+        <intercept-url pattern="/js/*" access="permitAll" />
+        <intercept-url pattern="/css/*" access="permitAll" />
+        <intercept-url pattern="/images/*" access="permitAll" />
+		<intercept-url pattern="/login" access="permitAll" />
+		<intercept-url pattern="/**/*.html" access="permitAll" />
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+		<intercept-url pattern="/gm/**" access="hasRole('ROLE_ADMIN')"/>
+	</http>
+
+	<!-- 登出 -->
+	<beans:bean id="logoutFilter"
+		class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<beans:constructor-arg index="0" value="/"></beans:constructor-arg>
+		<beans:constructor-arg index="1">
+			<beans:array>
+				<beans:bean
+					class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"></beans:bean>
+			</beans:array>
+		</beans:constructor-arg>
+		<beans:property name="filterProcessesUrl" value="/logout"></beans:property>
+	</beans:bean>
+
+	<beans:bean id="securityContextPersistenceFilter"
+		class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+		<beans:constructor-arg index="0"
+			ref="securityContextRepository"></beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="usernamePasswordAuthenticationFilter"
+		class="com.hehua.mis.filter.UsernamePasswordAuthenticationFilter">
+		<beans:property name="filterProcessesUrl" value="/login"></beans:property>
+		<beans:property name="usernameParameter" value="username"></beans:property>
+		<beans:property name="passwordParameter" value="password"></beans:property>
+		<beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+		<beans:property name="authenticationSuccessHandler"
+			ref="authenticationSuccessHandler"></beans:property>
+		<beans:property name="authenticationFailureHandler"
+			ref="authenticationFailureHandler"></beans:property>
+	</beans:bean>
+
+	<beans:bean id="authenticationSuccessHandler"
+		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<beans:property name="requestCache" ref="requestCache"></beans:property>
+		<beans:property name="defaultTargetUrl" value="/home"></beans:property>
+	</beans:bean>
+
+	<beans:bean id="authenticationFailureHandler"
+		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<beans:property name="defaultFailureUrl" value="/deny"></beans:property>
+		<beans:property name="allowSessionCreation" value="false"></beans:property>
+	</beans:bean>
+
+	<!-- 暂时使用session实现，以后替换成cookie的 -->
+	<beans:bean id="requestCache" class="org.springframework.security.web.savedrequest.NullRequestCache">
+	</beans:bean>
+
+	<!-- 暂时用session实现，以后替换成cookie -->
+	<beans:bean id="securityContextRepository"
+		class="org.springframework.security.web.context.HttpSessionSecurityContextRepository">
+	</beans:bean>
+
+	<!-- 授权点，给出一个默认登陆页面 -->
+	<beans:bean id="authenticationEntryPoint"
+		class="org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint">
+		<beans:constructor-arg>
+			<beans:map>
+				<beans:entry key="hasIpAddress('127.0.0.1')" value-ref="loginUrlAuthenticationEntryPoint">
+				</beans:entry>
+			</beans:map>
+		</beans:constructor-arg>
+		<beans:property name="defaultEntryPoint" ref="loginUrlAuthenticationEntryPoint" />
+	</beans:bean>
+
+	<beans:bean id="loginUrlAuthenticationEntryPoint"
+		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<beans:property name="loginFormUrl" value="/login" />
+	</beans:bean>
+
+	<!-- 访问控制管理 -->
+	<beans:bean id="accessDecisionManager"
+		class="org.springframework.security.access.vote.UnanimousBased">
+		<beans:constructor-arg>
+			<beans:list>
+				<beans:bean class="org.springframework.security.access.vote.RoleVoter"></beans:bean>
+				<beans:bean
+					class="org.springframework.security.access.vote.AuthenticatedVoter"></beans:bean>
+				<beans:bean
+					class="org.springframework.security.web.access.expression.WebExpressionVoter"></beans:bean>
+			</beans:list>
+		</beans:constructor-arg>
+		<beans:property name="allowIfAllAbstainDecisions"
+			value="false" />
+	</beans:bean>
+
+	<!-- 授权服务商 -->
+	<beans:bean id="authenticationManager"
+		class="org.springframework.security.authentication.ProviderManager">
+		<beans:constructor-arg>
+			<beans:list>
+				<beans:ref bean="usernamePasswordAuthenticationProvider"/>
+			</beans:list>
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="usernamePasswordAuthenticationProvider"
+		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="userDetailsManager" />
+		<beans:property name="passwordEncoder">
+		  <beans:bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"></beans:bean>
+		</beans:property>
+		<beans:property name="saltSource">
+		  <beans:bean class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+		      <beans:property name="userPropertyToUse" value="salt"></beans:property>
+		  </beans:bean>
+		</beans:property>
+	</beans:bean>
+	
+    <!-- 用户信息 -->
+    <beans:bean id="userDetailsManager" class="com.hehua.mis.service.user.AcluserManager">
+    </beans:bean>	
+</beans:beans>

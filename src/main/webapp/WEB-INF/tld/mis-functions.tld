@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+    <tlib-version>1.1</tlib-version>
+    <short-name>misfn</short-name>
+    <uri>http://mis.hehuababy.com/mis/functions</uri>
+    <function>
+        <description>formatStr(dd)</description>
+        <name>formatDateToStrBy</name>
+        <function-class>com.hehua.mis.utils.DateTimeUtil</function-class>
+        <function-signature>java.lang.String formatDateToStrBy(java.util.Date)</function-signature>
+    </function>
+    <function>
+        <description>isSessionRange(startTime, endTime)</description>
+        <name>isSessionRange</name>
+        <function-class>com.hehua.mis.utils.DateTimeUtil</function-class>
+        <function-signature>boolean isSessionRange(java.util.Date, java.util.Date)</function-signature>
+    </function>
+
+    <function>
+        <description>isBefore(startTime)</description>
+        <name>isBefore</name>
+        <function-class>com.hehua.mis.utils.DateTimeUtil</function-class>
+        <function-signature>boolean isBefore(java.util.Date)</function-signature>
+    </function>
+
+    <function>
+        <description>convertFreeOrderStatus(status)</description>
+        <name>convertFreeOrderStatus</name>
+        <function-class>com.hehua.freeorder.info.FreeOrderInfo</function-class>
+        <function-signature>java.lang.String convertStatus(int)</function-signature>
+    </function>
+    <function>
+        <description>formatStr(dd)</description>
+        <name>formatDateToStr</name>
+        <function-class>com.hehua.mis.utils.DateTimeUtil</function-class>
+        <function-signature>java.lang.String formatDateToStr(java.util.Date)</function-signature>
+    </function>
+    <function>
+        <description>escapeHtmlStr(dd)</description>
+        <name>escapeHtml</name>
+        <function-class>org.apache.commons.lang.StringEscapeUtils</function-class>
+        <function-signature>java.lang.String escapeHtml(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <description>split(java.lang.String,java.lang.String,int)</description>
+        <name>split</name>
+        <function-class>com.hehua.mis.utils.TldUtils</function-class>
+        <function-signature>java.lang.String split(java.lang.String,java.lang.String,int)</function-signature>
+    </function>
+    <function>
+        <description>split(java.lang.String,java.lang.String,int)</description>
+        <name>currentUser</name>
+        <function-class>com.peaceful.web.util.Http</function-class>
+        <function-signature>java.lang.String getCurrentUser()</function-signature>
+    </function>
+    <function>
+        <description>get session</description>
+        <name>session</name>
+        <function-class>com.hehua.mis.utils.HttpSession</function-class>
+        <function-signature>java.lang.String session(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <description>get menu</description>
+        <name>menu</name>
+        <function-class>com.hehua.mis.utils.MenuUtils</function-class>
+        <function-signature>com.peaceful.auth.data.domain.JSONMenu getMenu(java.lang.String)</function-signature>
+    </function>
+</taglib>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security-3.1.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<context:annotation-config />
+
+	<beans:bean id="misSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <beans:property name="dataSource" ref="misDataSource"/>
+    </beans:bean>
+
+    <beans:bean id="itemSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <beans:property name="dataSource" ref="itemDataSource"/>
+    </beans:bean>
+
+    <beans:bean id="statSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <beans:property name="dataSource" ref="statDataSource"/>
+    </beans:bean>
+
+    <beans:bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <beans:property name="sqlSessionFactoryBeanName" value="itemSqlSessionFactory" />
+        <beans:property name="basePackage" value="com.hehua.mis.item.dao" />
+    </beans:bean>
+    
+    <beans:bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    	<beans:property name="sqlSessionFactoryBeanName" value="misSqlSessionFactory" />
+        <beans:property name="basePackage" value="com.hehua.mis.dao" />
+    </beans:bean>
+
+    <beans:bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <beans:property name="sqlSessionFactoryBeanName" value="statSqlSessionFactory" />
+        <beans:property name="basePackage" value="com.hehua.mis.stat.dao" />
+    </beans:bean>
+    
+    <context:component-scan base-package="com.hehua.mis"></context:component-scan>
+</beans:beans>
